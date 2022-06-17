@@ -14,6 +14,11 @@ const App = () => {
       name: "Learn Typescript",
       isDone: false,
     },
+    {
+      id: 3,
+      name: "Configure Git",
+      isDone: true,
+    }
   ]);
 
  return (
