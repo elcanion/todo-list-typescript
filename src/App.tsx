@@ -1,41 +1,61 @@
 import * as C from "./App.styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Item } from "./types/Item";
 import { ListItem } from "./components/ListItem";
 import { AddItem } from "./components/AddItem";
+import { app } from "./firebase.config";
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+
 
 const App = () => {
   const [list, setList] = useState<Item[]>([
-    {
-      id: 1,
-      name: "Drink water",
-      isDone: false,
-    },
-    {
-      id: 2,
-      name: "Learn Typescript",
-      isDone: false,
-    },
-    {
-      id: 3,
-      name: "Configure Git",
-      isDone: true,
-    },
-    {
-      id: 4,
-      name: "Commit things",
-      isDone: false,
-    }
+
   ]);
+
+  const db = getFirestore(app);
+
+  useEffect(() => {
+    query();
+  }, []);
+
+  async function query() {
+    let newList = [...list];
+    const querySnapshot = await getDocs(collection(db, "todo"));
+    querySnapshot.forEach((doc) => {
+      newList.push({
+        id: doc.data().id,
+        taskName: doc.data().taskName,
+        isDone: doc.data().isDone,
+      });
+      setList(newList);
+    });
+  }
+
 
   const handleAddTask = (taskName: string) => {
     let newList = [...list];
     newList.push({
       id: list.length + 1,
-      name: taskName,
+      taskName: taskName,
       isDone: false
     });
     setList(newList);
+    addToFirestore(list.length + 1, taskName, false)
+  }
+
+  const addToFirestore = async (id: number, taskName: string, isDone: boolean) => {
+    try {
+      console.log("trying to add...");
+      const docRef = await addDoc(collection(db, "todo"), {
+        id: id,
+        taskName: taskName,
+        isDone: isDone
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.log("Error adding document: ", e);
+    }
   }
 
   const handleCheckbox = (id: number, taskIsDone: boolean) => {
