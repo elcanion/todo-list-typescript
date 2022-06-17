@@ -18,6 +18,11 @@ const App = () => {
       id: 3,
       name: "Configure Git",
       isDone: true,
+    },
+    {
+      id: 4,
+      name: "Commit things",
+      isDone: false,
     }
   ]);
 
