@@ -3,7 +3,18 @@ import { useState } from "react";
 import { Item } from "./types/Item";
 
 const App = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<Item[]>([
+    {
+      id: 1,
+      name: "Drink water",
+      isDone: false,
+    },
+    {
+      id: 2,
+      name: "Learn Typescript",
+      isDone: false,
+    },
+  ]);
 
  return (
   <C.Container>
