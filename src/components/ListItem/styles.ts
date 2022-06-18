@@ -12,6 +12,7 @@ export const Container = styled.div(({ isDone }: ContainerProps)=> (
     border-radius: 10px;
     margin-bottom: 10px;
     align-items: center;
+    justify-content: space-between;
 
     input {
         width: 25px;
@@ -20,8 +21,16 @@ export const Container = styled.div(({ isDone }: ContainerProps)=> (
     }
 
     label {
+        margin-right: auto;
+        margin-left: 20px;
         color: #CCC;
-        text-decoration: ${isDone ? 'line-through': 'initial'}
+        text-decoration: ${isDone ? 'line-through': 'initial'};
+        
     }
+
+    button {
+        float: right;
+    }
+
 `
 ));
