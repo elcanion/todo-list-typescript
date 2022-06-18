@@ -20,3 +20,10 @@ export const Header = styled.h1`
     border-bottom: 1px solid #444;
     padding-bottom: 20px;
 `;
+
+export const SubHeader = styled.h3`
+    color: #FFF;
+    text-align: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 20px;
+`;

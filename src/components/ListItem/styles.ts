@@ -24,13 +24,20 @@ export const Container = styled.div(({ isDone }: ContainerProps)=> (
         margin-right: auto;
         margin-left: 20px;
         color: #CCC;
-        text-decoration: ${isDone ? 'line-through': 'initial'};
-        
+        text-decoration: ${isDone ? 'line-through': 'initial'};       
     }
 
     button {
+        margin-left: 20px;
         float: right;
     }
 
 `
 ));
+
+
+export const DateLabel = styled.label`
+    margin-left: auto;
+    color: #CCC; 
+    font-style: italic;
+`;

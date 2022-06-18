@@ -4,7 +4,7 @@ import { Item } from "./types/Item";
 import { ListItem } from "./components/ListItem";
 import { AddItem } from "./components/AddItem";
 import { app } from "./firebase.config";
-import { deleteDoc, doc, getDoc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, getFirestore, onSnapshot, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { query, collection, addDoc, getDocs } from "firebase/firestore";
 
 
@@ -20,16 +20,15 @@ const App = () => {
 
   async function query() {
     
-    //let newList = [...list];
     //var newList = new Array<Item>();
     var newList : Item[] = [];
     const querySnapshot = await getDocs(collection(db, "todo"));
     querySnapshot.forEach((doc) => {
-      console.log(doc.id);
       newList.push({
         id: doc.id,
         taskName: doc.data().taskName,
         isDone: doc.data().isDone,
+        createdAt: doc.data().createdAt,
       });
       setList(newList);
     });
@@ -38,18 +37,21 @@ const App = () => {
 
 
   const handleAddTask = async (taskName: string) => {
+    const timestamp = Timestamp.now();
     try {
       console.log("trying to add...");
       const docRef = await addDoc(collection(db, "todo"), {
         taskName: taskName,
         isDone: false,
+        createdAt: timestamp,
       })
       
       let newList = [...list];
       newList.push({
         id: docRef.id,
         taskName: taskName,
-        isDone: false
+        isDone: false,
+        createdAt: timestamp,
       });
       setList(newList);
       console.log("Document written with ID: ", docRef.id);
@@ -59,15 +61,15 @@ const App = () => {
   }
 
 
-  const addToFirestore = async (id: number, taskName: string, isDone: boolean) => {
+  const addToFirestore = async (id: number, taskName: string, isDone: boolean, createdAt: Timestamp) => {
     const newTodoRef = doc(collection(db, "todo"));
-    console.log(newTodoRef);
     try {
       console.log("trying to add...");
       await setDoc(newTodoRef, {
         id: newTodoRef,
         taskName: taskName,
         isDone: isDone,
+        createdAt: createdAt,
       });
       //console.log("Document written with ID: ", docRef.id);
     } catch (e) {
@@ -116,8 +118,11 @@ const App = () => {
   <C.Container>
     <C.Area>
       <C.Header>
-        To-do list
+        elcanion's to-do list
       </C.Header>
+      <C.SubHeader>
+        feel free to use it too :D
+      </C.SubHeader>
 
       <AddItem onEnter={handleAddTask} />
 

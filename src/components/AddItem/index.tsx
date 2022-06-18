@@ -20,7 +20,7 @@ export const AddItem = ({ onEnter }: Props) => {
             <div className="plus">+</div>
             <input 
                 type="text"
-                placeholder="New Item"
+                placeholder="New item (press enter to confirm)"
                 value={inputText}
                 onChange={e=>setInputText(e.target.value)}
                 onKeyUp={handleKeyUp}

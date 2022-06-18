@@ -8,6 +8,11 @@ type Props = {
 }
 
 export const ListItem = ({ item, onChange, onDelete }: Props) => {
+    const timestamp = item.createdAt;
+    const date = new Date(timestamp.toDate());
+    const fullDate = `
+        ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}
+    `
 
     return (
         <C.Container isDone={item.isDone}>
@@ -17,7 +22,10 @@ export const ListItem = ({ item, onChange, onDelete }: Props) => {
                 onChange={e => onChange(item.id, item.taskName, e.target.checked)}
             />
             <label>{item.taskName}</label>
-            <button onClick={e => onDelete(item.id)}>❌</button>
+            <div>
+                <C.DateLabel>created at:{fullDate}</C.DateLabel>
+                <button onClick={e => onDelete(item.id)}>❌</button>
+            </div>
         </C.Container>
     );
 }
